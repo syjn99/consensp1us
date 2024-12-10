@@ -1,11 +1,11 @@
 [package]
 version = "0.1.0"
-name = "fibonacci-script"
+name = "consensp1us-host"
 edition = "2021"
-default-run = "fibonacci"
+default-run = "eth-consensus"
 
 [[bin]]
-name = "fibonacci"
+name = "eth-consensus"
 path = "src/bin/main.rs"
 
 

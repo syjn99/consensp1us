@@ -19,7 +19,7 @@ mod cli;
 use cli::ProviderArgs;
 
 /// The ELF (executable and linkable format) file for the Succinct RISC-V zkVM.
-pub const FIBONACCI_ELF: &[u8] = include_elf!("fibonacci-program");
+pub const FIBONACCI_ELF: &[u8] = include_elf!("eth-consensus");
 
 /// The arguments for the command.
 #[derive(Parser, Debug)]
