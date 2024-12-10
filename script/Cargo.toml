@@ -8,9 +8,6 @@ default-run = "fibonacci"
 name = "fibonacci"
 path = "src/bin/main.rs"
 
-[[bin]]
-name = "evm"
-path = "src/bin/evm.rs"
 
 [dependencies]
 sp1-sdk = "3.0.0"
