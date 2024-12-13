@@ -15,7 +15,9 @@ use clap::Parser;
 use fibonacci_lib::PublicValuesStruct;
 use sp1_sdk::{include_elf, ProverClient, SP1Stdin};
 
+mod beacon_client;
 mod cli;
+use beacon_client::BeaconClient;
 use cli::ProviderArgs;
 
 /// The ELF (executable and linkable format) file for the Succinct RISC-V zkVM.
@@ -52,6 +54,8 @@ fn main() {
         eprintln!("Error: You must specify either --execute or --prove");
         std::process::exit(1);
     }
+
+    let beacon_client = BeaconClient::new(args.provider.rpc_url.unwrap());
 
     // Setup the prover client.
     let client = ProverClient::new();
