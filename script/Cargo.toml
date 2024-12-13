@@ -18,7 +18,7 @@ tracing = "0.1.40"
 hex = "0.4.3"
 alloy-sol-types = { workspace = true }
 fibonacci-lib = { path = "../lib" }
-url.workspace = true
+url = "2.3"
 
 [build-dependencies]
 sp1-helper = "3.0.0"
