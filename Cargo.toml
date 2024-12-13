@@ -7,4 +7,4 @@ members = [
 resolver = "2"
 
 [workspace.dependencies]
-alloy-sol-types = "0.7.7"
+lighthouse-beacon-node = { git = "https://github.com/sigp/lighthouse", package = "beacon_node" }

@@ -10,9 +10,7 @@
 //! RUST_LOG=info cargo run --release -- --prove
 //! ```
 
-use alloy_sol_types::SolType;
 use clap::Parser;
-use fibonacci_lib::PublicValuesStruct;
 use sp1_sdk::{include_elf, ProverClient, SP1Stdin};
 
 mod beacon_client;
@@ -21,7 +19,7 @@ use beacon_client::BeaconClient;
 use cli::ProviderArgs;
 
 /// The ELF (executable and linkable format) file for the Succinct RISC-V zkVM.
-pub const FIBONACCI_ELF: &[u8] = include_elf!("eth-consensus");
+pub const ETH_CONSENSUS: &[u8] = include_elf!("eth-consensus");
 
 /// The arguments for the command.
 #[derive(Parser, Debug)]
@@ -68,26 +66,22 @@ fn main() {
 
     if args.execute {
         // Execute the program
-        let (output, report) = client.execute(FIBONACCI_ELF, stdin).run().unwrap();
+        let (mut output, report) = client.execute(ETH_CONSENSUS, stdin).run().unwrap();
         println!("Program executed successfully.");
 
-        // Read the output.
-        let decoded = PublicValuesStruct::abi_decode(output.as_slice(), true).unwrap();
-        let PublicValuesStruct { n, a, b } = decoded;
-        println!("n: {}", n);
-        println!("a: {}", a);
-        println!("b: {}", b);
+        // Read the output
+        let result: u32 = output.read::<u32>();
+        println!("Result: {}", result);
 
-        let (expected_a, expected_b) = fibonacci_lib::fibonacci(n);
-        assert_eq!(a, expected_a);
-        assert_eq!(b, expected_b);
+        let expected = beacon_lib::isomorphic_function(args.n);
+        assert_eq!(result, expected);
         println!("Values are correct!");
 
         // Record the number of cycles executed.
         println!("Number of cycles: {}", report.total_instruction_count());
     } else {
         // Setup the program for proving.
-        let (pk, vk) = client.setup(FIBONACCI_ELF);
+        let (pk, vk) = client.setup(ETH_CONSENSUS);
 
         // Generate the proof
         let proof = client
