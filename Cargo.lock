@@ -1602,12 +1602,15 @@ dependencies = [
  "beacon-lib",
  "beacon_node",
  "clap",
+ "eth2",
  "hex",
  "serde",
  "serde_json",
  "sp1-helper",
  "sp1-sdk",
+ "tokio",
  "tracing",
+ "types",
  "url",
 ]
 

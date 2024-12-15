@@ -8,3 +8,5 @@ resolver = "2"
 
 [workspace.dependencies]
 lighthouse-beacon-node = { git = "https://github.com/sigp/lighthouse", package = "beacon_node" }
+lighthouse-eth2 = { git = "https://github.com/sigp/lighthouse", package = "eth2" }
+lighthouse-types = { git = "https://github.com/sigp/lighthouse", package = "types" }

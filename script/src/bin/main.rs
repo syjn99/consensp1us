@@ -35,13 +35,14 @@ struct Args {
     n: u32,
 
     #[clap(long)]
-    slot_number: u32,
+    slot_number: u64,
 
     #[clap(flatten)]
     provider: ProviderArgs,
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     // Setup the logger.
     sp1_sdk::utils::setup_logger();
 
@@ -53,7 +54,9 @@ fn main() {
         std::process::exit(1);
     }
 
-    let beacon_client = BeaconClient::new(args.provider.rpc_url.unwrap());
+    let beacon_client =
+        BeaconClient::new(args.provider.rpc_url.unwrap()).expect("Failed to create beacon client");
+    let _ = beacon_client.get_beacon_state(args.slot_number).await;
 
     // Setup the prover client.
     let client = ProverClient::new();
