@@ -41,27 +41,6 @@ cd script
 cargo run --release -- --prove
 ```
 
-### Generate an EVM-Compatible Proof
-
-> [!WARNING]
-> You will need at least 128GB RAM to generate a Groth16 or PLONK proof.
-
-To generate a proof that is small enough to be verified on-chain and verifiable by the EVM:
-
-```sh
-cd script
-cargo run --release --bin evm -- --system groth16
-```
-
-this will generate a Groth16 proof. If you want to generate a PLONK proof, run the following command:
-
-```sh
-cargo run --release --bin evm -- --system plonk
-```
-
-These commands will also generate fixtures that can be used to test the verification of SP1 zkVM proofs
-inside Solidity.
-
 ### Retrieve the Verification Key
 
 To retrieve your `programVKey` for your on-chain contract, run the following command:
