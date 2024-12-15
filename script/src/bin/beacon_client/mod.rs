@@ -1,7 +1,10 @@
 use std::time::Duration;
 
-use lighthouse_eth2::{types::StateId, BeaconNodeHttpClient, SensitiveUrl, Timeouts};
-use lighthouse_types::{MainnetEthSpec, Slot};
+use lighthouse_eth2::{
+    types::{BlockId, StateId},
+    BeaconNodeHttpClient, SensitiveUrl, Timeouts,
+};
+use lighthouse_types::{MainnetEthSpec, SignedBeaconBlock, Slot};
 
 pub struct BeaconClient {
     client: BeaconNodeHttpClient,
@@ -28,5 +31,41 @@ impl BeaconClient {
         println!("slot: {:?}", beacon_state.data.slot());
 
         Ok(beacon_state.data.slot())
+    }
+
+    pub async fn get_beacon_block(
+        &self,
+        slot: u64,
+    ) -> Result<Option<SignedBeaconBlock<MainnetEthSpec>>, String> {
+        let block = self
+            .client
+            .get_beacon_blocks::<MainnetEthSpec>(BlockId::Slot(slot.into()))
+            .await
+            .map_err(|e| format!("Failed to get beacon block: {:?}", e))?;
+
+        let block = match block {
+            Some(block) => block,
+            None => return Ok(None),
+        };
+
+        println!("block: {:?}", block.data.state_root());
+
+        Ok(Some(block.data))
+    }
+
+    pub async fn get_beacon_blocks(
+        &self,
+        start: u64,
+        end: u64,
+    ) -> Result<Vec<SignedBeaconBlock<MainnetEthSpec>>, String> {
+        let mut blocks = Vec::new();
+
+        for slot in start..=end {
+            if let Ok(Some(block)) = self.get_beacon_block(slot).await {
+                blocks.push(block);
+            }
+        }
+
+        Ok(blocks)
     }
 }

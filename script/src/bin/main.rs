@@ -57,6 +57,7 @@ async fn main() {
     let beacon_client =
         BeaconClient::new(args.provider.rpc_url.unwrap()).expect("Failed to create beacon client");
     let _ = beacon_client.get_beacon_state(args.slot_number).await;
+    let _ = beacon_client.get_beacon_blocks(285500, 285510).await;
 
     // Setup the prover client.
     let client = ProverClient::new();
