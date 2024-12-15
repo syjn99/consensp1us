@@ -18,10 +18,7 @@ impl BeaconClient {
     }
 
     pub async fn get_beacon_state(&self, slot: u64) -> Result<Slot, String> {
-        let beacon_state: lighthouse_types::ForkVersionedResponse<
-            lighthouse_types::BeaconState<MainnetEthSpec>,
-            lighthouse_types::fork_versioned_response::ExecutionOptimisticFinalizedMetadata,
-        > = self
+        let beacon_state = self
             .client
             .get_debug_beacon_states::<MainnetEthSpec>(StateId::Slot(slot.into()))
             .await
