@@ -8,7 +8,17 @@ resolver = "2"
 
 [workspace.dependencies]
 # Selected version for Mekong Testnet
+# Based on sigp/lighthouse@87b72dec21759acfbc749220be3aee11ac91cdf3
 # https://github.com/sigp/lighthouse/tree/87b72dec21759acfbc749220be3aee11ac91cdf3
-lighthouse-beacon-node = { git = "https://github.com/sigp/lighthouse", package = "beacon_node", rev = "87b72dec21759acfbc749220be3aee11ac91cdf3" } 
-lighthouse-eth2 = { git = "https://github.com/sigp/lighthouse", package = "eth2", rev = "87b72dec21759acfbc749220be3aee11ac91cdf3" }
-lighthouse-types = { git = "https://github.com/sigp/lighthouse", package = "types", rev = "87b72dec21759acfbc749220be3aee11ac91cdf3" }
+# Changes:
+# - Add `zkcrypto/bls12_381` backend for BLS signature and aggregation
+# - Delete `rusqlite` dependency
+lighthouse-beacon-node = { git = "https://github.com/syjn99/lighthouse", package = "beacon_node", branch = "integration-with-sp1" } 
+lighthouse-eth2 = { git = "https://github.com/syjn99/lighthouse", package = "eth2", branch = "integration-with-sp1" }
+lighthouse-types = { git = "https://github.com/syjn99/lighthouse", package = "types", rev = "f74de5df2eb78d0beeb4905e82daef0489883a48", default-features = false }
+lighthouse-state-processing = { git = "https://github.com/syjn99/lighthouse", package = "state_processing", branch = "integration-with-sp1" }
+
+[patch.crates-io]
+bls = { git = "https://github.com/syjn99/lighthouse", package = "bls", branch = "integration-with-sp1" }
+# Fork of sigp/ethereum_hashing, use only sha2 instead of ring (for RISC-V)
+ethereum_hashing = { git = "https://github.com/syjn99/ethereum_hashing", branch = "sha2-version" }
