@@ -4,5 +4,5 @@ name = "eth-consensus"
 edition = "2021"
 
 [dependencies]
-sp1-zkvm = "3.0.0-rc4"
+sp1-zkvm = "3.4.0"
 beacon-lib = { path = "../lib" }
